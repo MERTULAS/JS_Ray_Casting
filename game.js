@@ -4,12 +4,19 @@ body.appendChild(canvas);
 var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+canvas.setAttribute("id", "canvas1");
+
 const wallPoints = [
-    [200, 300, 200, 600],
-    [1500, 300, 1500, 600],
-    [900, 900, 500, 900],
-    [300, 300, 600, 100],
-    [200, 700, 500, 800],
+    [200, 300, 200, 700],
+    [200, 700, 800, 1000],
+    [200, 300, 600, 100],
+    [800, 1000, 1900, 1100],
+    [1900, 1100, 1900, 100],
+    [1900, 100, 600, 100],
+    [1600, 300, 1500, 800],
+    [1500, 800, 900, 750],
+    [900, 750, 700, 500],
+    
 ];
 const walls = [];
 window.addEventListener("resize", () => {
@@ -40,23 +47,40 @@ function game(){
     });
     let i = 0;
     function play(){
-        ctx.fillStyle = "rgba(33, 33, 33, 0.3)";
+        ctx.fillStyle = "rgba(33, 33, 33, 0.5)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx2.fillStyle = "rgba(33, 33, 33, 0.5)";
+        ctx2.fillRect(0, 0, canvas2.width, canvas2.height / 2);
+        ctx2.fillStyle = "rgba(0, 200, 0, 0.5)";
+        ctx2.fillRect(0, canvas2.height / 2, canvas2.width, canvas2.height / 2);
         player.draw();
         walls.forEach(wall => {
             wall.drawWall();
             player.fieldOfView(wall);
         });
         player.rays();
+        Object.keys(player.points).forEach((key, index) => {
+            let distance = player.distance(player.x + player.width / 2, player.y + player.height / 2, player.points[key][0], player.points[key][1]);
+            let maxHeight = canvas2.height * 0.8;
+            let wallHeightScaler = (maxHeight - distance) / maxHeight;
+            let wallHeight = maxHeight * wallHeightScaler;
+            let dx = 5;
+            let dy = canvas2.height / 2 - wallHeight / 2;
+            ctx2.fillStyle = "rgba(255, 255, 255," + wallHeightScaler + ")";
+            ctx2.fillRect(index * dx, dy, 50, wallHeight);
+            ctx2.strokeStyle = "rgba(255, 0, 0," + wallHeightScaler + ")";
+            ctx2.strokeRect(index * dx, dy, 50, wallHeight);
+            ctx2.fill();
+            
+            
+        });
         /*
         player.castingPoints.forEach(point => {
             ctx.beginPath();
             ctx.arc(point.x, point.y, 10, 0, Math.PI * 2);
             ctx.fill();
         })*/
-        
         requestAnimationFrame(play);
     }
     play();
-    
 }

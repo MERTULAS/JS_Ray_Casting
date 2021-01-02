@@ -8,8 +8,11 @@ class Wall{
 
     drawWall(){
         ctx.beginPath();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "white";
         ctx.moveTo(this.x1, this.y1);
         ctx.lineTo(this.x2, this.y2);
         ctx.stroke();
     }
+
 }

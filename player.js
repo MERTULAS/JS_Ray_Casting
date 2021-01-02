@@ -6,8 +6,8 @@ class Player{
         this.height = height;
         this.radius = -30;
         this.viewAngle = 60;
-        this.angleStep = 1;
-        this.visionDistance = 10;
+        this.angleStep = .1;
+        this.visionDistance = 800;
         this.lengthPerIndexes = [...Array(this.viewAngle / this.angleStep + 1)].map((_, i) => Infinity); 
         this.castingRays = {};
         this.castingPoints = [];
@@ -26,7 +26,6 @@ class Player{
         for (let i = 0; i <= this.viewAngle; i+=this.angleStep){
             let dx = this.visionDistance * Math.cos((this.radius + i) * Math.PI / 180) + this.x + this.width / 2;
             let dy = this.visionDistance * Math.sin((this.radius + i) * Math.PI / 180) + this.y + this.width / 2;
-            
             let rayCastingPoint = this.rayCasting(wall, dx, dy);
             if(rayCastingPoint)
             {
@@ -39,11 +38,13 @@ class Player{
                 dy = rayCastingPoint.y;
                 this.lengthPerIndexes[index] = this.castingRays[index];
                 this.points[index] = [dx, dy];
-                ctx.moveTo(this.x + this.width / 2, this.y + this.height / 2);
-                ctx.lineTo(dx, dy);
+                
             }
             index++;
+        ctx.moveTo(this.x + this.width / 2, this.y + this.height / 2);
+        ctx.lineTo(dx, dy);
         }
+        
     }
     
     rayCasting(wall, dx, dy){
