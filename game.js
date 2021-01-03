@@ -15,7 +15,9 @@ const wallPoints = [
     [1900, 100, 600, 100],
     [1600, 300, 1500, 800],
     [1500, 800, 900, 750],
-    [900, 750, 700, 500],
+    [900, 750, 500, 500],
+    [900, 400, 500, 500],
+    [900, 400, 1400, 400],
     
 ];
 const walls = [];
@@ -61,15 +63,15 @@ function game(){
         player.rays();
         Object.keys(player.points).forEach((key, index) => {
             let distance = player.distance(player.x + player.width / 2, player.y + player.height / 2, player.points[key][0], player.points[key][1]);
-            let maxHeight = canvas2.height * 0.8;
+            let maxHeight = canvas2.height * 0.6;
             let wallHeightScaler = (maxHeight - distance) / maxHeight;
             let wallHeight = maxHeight * wallHeightScaler;
-            let dx = 5;
+            let dx = 4;
             let dy = canvas2.height / 2 - wallHeight / 2;
             ctx2.fillStyle = "rgba(255, 255, 255," + wallHeightScaler + ")";
-            ctx2.fillRect(index * dx, dy, 50, wallHeight);
+            ctx2.fillRect(index * dx, dy, dx, wallHeight);
             ctx2.strokeStyle = "rgba(255, 0, 0," + wallHeightScaler + ")";
-            ctx2.strokeRect(index * dx, dy, 50, wallHeight);
+            ctx2.strokeRect(index * dx, dy, dx, wallHeight);
             ctx2.fill();
             
             
