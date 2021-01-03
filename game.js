@@ -28,6 +28,48 @@ window.addEventListener("resize", () => {
 
 window.addEventListener("load", game);
 
+window.addEventListener("keydown", (e) => {
+    switch(e.keyCode){
+        case 87:
+            player.forward();
+        break;
+
+        case 83:
+            player.backward();
+        break;
+
+        case 68:
+            player.turnRight();
+        break;
+
+        case 65:
+            player.turnLeft();
+        break;
+        default: break;
+    }
+});
+
+window.addEventListener("keyup", (e) => {
+    switch(e.keyCode){
+        case 87:
+            player.stop();
+        break;
+
+        case 83:
+            player.stop();
+        break;
+
+        case 68:
+            player.notTurn();
+        break;
+
+        case 65:
+            player.notTurn();
+        break;
+        default: break;
+    }
+});
+
 function game(){
 
     wallPoints.forEach(points => {
@@ -38,15 +80,8 @@ function game(){
         walls.push(new Wall(x1, y1, x2, y2));
     });
 
-    let player = new Player(canvas.width / 2 - 25, canvas.height / 2 - 25, 50, 50);
+    player = new Player(canvas.width / 2 - 25, canvas.height / 2 - 25, 50, 50);
     
-    window.addEventListener("keydown", (e) => {
-        player.move(e.keyCode);
-    });
-
-    window.addEventListener("keyup", (e) => {
-        player.stop(e.keyCode);
-    });
     let i = 0;
     function play(){
         ctx.fillStyle = "rgba(33, 33, 33, 0.5)";
@@ -66,22 +101,14 @@ function game(){
             let maxHeight = canvas2.height * 0.6;
             let wallHeightScaler = (maxHeight - distance) / maxHeight;
             let wallHeight = maxHeight * wallHeightScaler;
-            let dx = 4;
+            let dx = 5;
             let dy = canvas2.height / 2 - wallHeight / 2;
             ctx2.fillStyle = "rgba(255, 255, 255," + wallHeightScaler + ")";
             ctx2.fillRect(index * dx, dy, dx, wallHeight);
             ctx2.strokeStyle = "rgba(255, 0, 0," + wallHeightScaler + ")";
             ctx2.strokeRect(index * dx, dy, dx, wallHeight);
             ctx2.fill();
-            
-            
         });
-        /*
-        player.castingPoints.forEach(point => {
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 10, 0, Math.PI * 2);
-            ctx.fill();
-        })*/
         requestAnimationFrame(play);
     }
     play();

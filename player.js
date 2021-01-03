@@ -12,12 +12,8 @@ class Player{
         this.castingRays = {};
         this.castingPoints = [];
         this.points = {};
-        this.controller = {
-            "87": {pressed: false, dx: 10, dy: 10, angle: 0},
-            "83": {pressed: false, dx: -10, dy:-10, angle: 0},
-            "68": {pressed: false, dx: 0, dy: 0, angle: 1},
-            "65": {pressed: false, dx: 0, dy: 0, angle: -1}
-        };
+        this.movingStep = 0;
+        this.turningAngle = 0;
     }
 
     fieldOfView(wall){
@@ -83,7 +79,8 @@ class Player{
     }
 
     draw(){
-        this.lengthPerIndexes = [...Array(this.viewAngle / this.angleStep + 1)].map((_, i) => Infinity); 
+        this.positionUpdate();
+        this.lengthPerIndexes = [...Array(Math.floor(this.viewAngle / this.angleStep + 1))].map((_, i) => Infinity); 
         this.castingRays = {};
         this.castingPoints = [];
         this.points = {};
@@ -92,22 +89,38 @@ class Player{
         ctx.fill();
     }
 
-    move(keyCode){
-        Object.keys(this.controller).forEach(key => {
-            this.controller[keyCode].pressed = true;
-        });
-        Object.keys(this.controller).forEach(key => {
-            if(this.controller[keyCode].pressed){
-                this.x += this.controller[keyCode].dx * Math.cos((this.radius + this.viewAngle / 2) * Math.PI / 180);
-                this.y += this.controller[keyCode].dy * Math.sin((this.radius + this.viewAngle / 2) * Math.PI / 180);
-                this.radius += this.controller[keyCode].angle;
-            }
-        });
+    static angleNormalizer(radius){
+        return radius % 360;
     }
 
-    stop(keyCode){
-        Object.keys(this.controller).forEach(key => {
-            this.controller[keyCode].pressed = false;
-        });
+    positionUpdate(){
+        this.x += this.movingStep * Math.cos((this.radius + this.viewAngle / 2) * Math.PI / 180);
+        this.y += this.movingStep * Math.sin((this.radius + this.viewAngle / 2) * Math.PI / 180);
+        this.radius += this.turningAngle;
+        this.radius = Player.angleNormalizer(this.radius);
+    }
+
+    forward(){
+        this.movingStep = 5;
+    }
+
+    backward(){
+        this.movingStep = -5;
+    }
+    
+    turnLeft(){
+        this.turningAngle = -1;
+    }
+
+    turnRight(){
+        this.turningAngle = 1;
+    }
+
+    stop(){
+        this.movingStep = 0;
+    }
+
+    notTurn(){
+        this.turningAngle = 0;
     }
 }
