@@ -2,14 +2,14 @@
 
 ![image](https://user-images.githubusercontent.com/67822910/103563055-3175d480-4ecd-11eb-88ae-5a896a5bd248.png)
 
-## Player field of view calculation based on angular movement
+# 1-) Player field of view calculation based on angular movement
 
 ![image](https://user-images.githubusercontent.com/67822910/103559424-2750d780-4ec7-11eb-99b3-38c75d1f9e6a.png)
 
 The calculation shown in the figure is used in the field of view movement of the angularly oriented character. 
 Every vector within the field of view is updated this way.
 
-## Line–line intersection
+# 2-) Line–line intersection
 
 ![image](https://user-images.githubusercontent.com/67822910/103559846-ddb4bc80-4ec7-11eb-9276-1454fb0f9b10.png)
 
@@ -25,8 +25,10 @@ If 0 < t < 1 and u > 0, it is understood that the two specified lines intersect.
 
 The intersecting point is obtained by the formula (According to the narrative picture above):
 
+```
 castX: x2 + t * (x3 - x2)
 castY: y2 + t * (y3 - y2)
+```
 
 ```
 rayCasting(wall, dx, dy){
@@ -55,7 +57,7 @@ rayCasting(wall, dx, dy){
 
 ![image](https://user-images.githubusercontent.com/67822910/103561543-bad7d780-4eca-11eb-8bd8-abf00405b95f.png)
 
-## 3D Render
+# 3-) 3D Render
 
 ![image](https://user-images.githubusercontent.com/67822910/103562456-2c645580-4ecc-11eb-83c0-a0c0b1f62d75.png)
 
